@@ -47,11 +47,13 @@ jobs:
       working-directory: app/android/app/build/outputs/apk/debug/
       run: mv app-debug.apk OrbWallet.apk
 
-    - name: Upload APK to GitHub Release
-      uses: ncipollo/release-action@v1
-      with:
-        tag: apk
-        release_name: APK Build
+    - name: Release APK
+      uses: softprops/action-gh-release@v2
+      if: startsWith(github.ref, 'refs/tags/')
+      with: 
+        files: app/android/app/build/outputs/apk/debug/OrbWallet.apk
+        body: 'Download here the latest version of Orb ⬇️'
         draft: false
         prerelease: false
-        files: app/android/app/build/outputs/apk/debug/OrbWallet.apk
+        make_latest: true
+        
