@@ -1,0 +1,53 @@
+name: Build APK
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 23
+
+    # 3. Instalar dependências
+    - name: Install dependencies
+      working-directory: app
+      run: npm install
+
+    - name: Build web app
+      working-directory: app
+      run: npm run build
+
+    - name: Setup Java
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'zulu'
+        java-version: '17'
+
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v2
+      with:
+        api-level: 33
+        build-tools: '33.0.2'
+        target: 'android-33'
+
+    # 7. Build do APK
+    - name: Build APK
+      working-directory: app/android
+      run: ./gradlew assembleDebug
+
+    # 8. Publicar o APK como artefato
+    - name: Upload APK
+      uses: actions/upload-artifact@v3
+      with:
+        name: OrbWallet.apk
+        path: android/app/build/outputs/apk/release/app-debug.apk
