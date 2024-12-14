@@ -11,3 +11,11 @@
 </div>
 
 ## The permissioned wallet, made for busy people.
+
+## Index
+
+1. [Why]()
+2. How
+3. Using the wallet
+4. Personas
+5. Roadmap
