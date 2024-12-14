@@ -40,14 +40,16 @@ jobs:
         build-tools: '33.0.2'
         target: 'android-33'
 
-    # 7. Build do APK
     - name: Build APK
       working-directory: app/android
       run: ./gradlew assembleDebug
 
-    # 8. Publicar o APK como artefato
+    - name: Rename APK
+      working-directory: app/android/app/build/outputs/apk/debug/
+      run: mv app-debug.apk OrbWallet.apk
+
     - name: Upload APK
       uses: actions/upload-artifact@v3
       with:
         name: OrbWallet.apk
-        path: android/app/build/outputs/apk/release/app-debug.apk
+        path: app/android/app/build/outputs/apk/debug/OrbWallet.apk
