@@ -18,7 +18,6 @@ jobs:
       with:
         node-version: 23
 
-    # 3. Instalar dependências
     - name: Install dependencies
       working-directory: app
       run: npm install
@@ -48,8 +47,11 @@ jobs:
       working-directory: app/android/app/build/outputs/apk/debug/
       run: mv app-debug.apk OrbWallet.apk
 
-    - name: Upload APK
-      uses: actions/upload-artifact@v3
+    - name: Upload APK to GitHub Release
+      uses: ncipollo/release-action@v1
       with:
-        name: OrbWallet.apk
-        path: app/android/app/build/outputs/apk/debug/OrbWallet.apk
+        tag: apk
+        release_name: APK Build
+        draft: false
+        prerelease: false
+        files: app/android/app/build/outputs/apk/debug/OrbWallet.apk
