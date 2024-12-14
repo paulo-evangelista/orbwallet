@@ -46,14 +46,23 @@ jobs:
     - name: Rename APK
       working-directory: app/android/app/build/outputs/apk/debug/
       run: mv app-debug.apk OrbWallet.apk
-
-    - name: Release APK
-      uses: softprops/action-gh-release@v2
-      if: startsWith(github.ref, 'refs/tags/')
-      with: 
-        files: app/android/app/build/outputs/apk/debug/OrbWallet.apk
-        body: 'Download here the latest version of Orb ⬇️'
+      
+    - name: Check APK Exists
+      run: |
+        ls &&
+        if [ -f "app/android/app/build/outputs/apk/debug/OrbWallet.apk" ]; then
+          echo "APK found!"
+        else
+          echo "APK not found!"
+          exit 1
+        fi
+        
+    - name: Upload APK to GitHub Release
+      uses: ncipollo/release-action@v1
+      with:
+        tag: release
+        release_name: APK Build
         draft: false
         prerelease: false
-        make_latest: true
-        
+        body: "Download the latest Orb version ⬇️"
+        artifacts: app/android/app/build/outputs/apk/debug/OrbWallet.apk
