@@ -57,10 +57,15 @@ jobs:
           exit 1
         fi
         
+    - name: Generate Random Hex ID
+      id: random_hex
+      run: echo "HEX=$(openssl rand -hex 2)" >> "$GITHUB_ENV"
+        
     - name: Upload APK to GitHub Release
       uses: ncipollo/release-action@v1
       with:
-        tag: release
+        tag: v-${{ env.HEX }}
+        commit: main
         name: APK Download
         draft: false
         prerelease: false
