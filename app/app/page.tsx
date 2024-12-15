@@ -1,101 +1,106 @@
-import Image from "next/image";
+'use client'
 
-export default function Home() {
+import { useState } from 'react'
+import { Card, CardContent } from "@/components/ui/card"
+import { LineChart, Line, ResponsiveContainer } from 'recharts'
+import { ChartContainer } from "@/components/ui/chart"
+import { ArrowUpRight, ArrowDownRight, Home, User, Settings } from 'lucide-react'
+import Image from 'next/image'
+
+// Mock data for the chart
+const chartData = [
+  { date: '2023-01-01', value: 1000 },
+  { date: '2023-02-01', value: 1200 },
+  { date: '2023-03-01', value: 1100 },
+  { date: '2023-04-01', value: 1400 },
+  { date: '2023-05-01', value: 1300 },
+  { date: '2023-06-01', value: 1600 },
+]
+
+// Mock data for the coin list
+const coinData = [
+  { name: 'Bitcoin', symbol: 'BTC', value: 32000, change: 2.5, image: '/placeholder.svg?height=40&width=40' },
+  { name: 'Ethereum', symbol: 'ETH', value: 1800, change: -1.2, image: '/placeholder.svg?height=40&width=40' },
+  { name: 'Cardano', symbol: 'ADA', value: 0.5, change: 5.7, image: '/placeholder.svg?height=40&width=40' },
+  { name: 'Polkadot', symbol: 'DOT', value: 7.2, change: -0.8, image: '/placeholder.svg?height=40&width=40' },
+]
+
+export default function HomePage() {
+  const [totalValue, setTotalValue] = useState(35800.7)
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <div className="min-h-screen bg-black text-white flex flex-col">
+      <header className="p-6 mb-4">
+        <div className="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center mx-auto">
+          hello
+          {/* Replace with your actual logo */}
+          <span className="text-2xl">🔮</span>
+        </div>
+      </header>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+      <main className="flex-grow px-6 space-y-8 overflow-y-auto pb-20">
+        <div className="text-center">
+          <h2 className="text-xl text-gray-400 mb-2">Total Portfolio Value</h2>
+          <p className="text-4xl font-bold">${totalValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
+        </div>
+
+        <Card className="bg-zinc-900 border-none">
+          <CardContent className="p-6">
+            <ChartContainer
+              config={{
+                value: {
+                  label: "Portfolio Value",
+                  color: "hsl(var(--chart-1))",
+                },
+              }}
+              className="h-[200px]"
+            >
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={chartData}>
+                  <Line type="monotone" dataKey="value" stroke="var(--color-value)" strokeWidth={2} dot={false} />
+                </LineChart>
+              </ResponsiveContainer>
+            </ChartContainer>
+          </CardContent>
+        </Card>
+
+        <div className="space-y-4">
+          <h2 className="text-2xl font-bold">Your Assets</h2>
+          {coinData.map((coin) => (
+            <Card key={coin.symbol} className="bg-zinc-900 border-none">
+              <CardContent className="p-4 flex items-center">
+                <Image src={coin.image} alt={coin.name} width={40} height={40} className="rounded-full mr-4" />
+                <div className="flex-grow">
+                  <h3 className="font-bold">{coin.name}</h3>
+                  <p className="text-sm text-gray-400">{coin.symbol}</p>
+                </div>
+                <div className="text-right">
+                  <p className="font-bold">${coin.value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
+                  <p className={`text-sm ${coin.change >= 0 ? 'text-green-500' : 'text-red-500'} flex items-center justify-end`}>
+                    {coin.change >= 0 ? <ArrowUpRight size={16} /> : <ArrowDownRight size={16} />}
+                    {Math.abs(coin.change)}%
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
         </div>
       </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+
+      <nav className="fixed bottom-0 left-0 right-0 bg-zinc-900 border-t border-zinc-800">
+        <div className="flex justify-around items-center h-16">
+          <button className="text-gray-400 hover:text-white focus:outline-none focus:text-white">
+            <User size={24} />
+          </button>
+          <button className="text-purple-400 hover:text-purple-300 focus:outline-none focus:text-purple-300">
+            <Home size={24} />
+          </button>
+          <button className="text-gray-400 hover:text-white focus:outline-none focus:text-white">
+            <Settings size={24} />
+          </button>
+        </div>
+      </nav>
     </div>
-  );
+  )
 }
+
