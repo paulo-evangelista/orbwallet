@@ -63,7 +63,6 @@ export default function RootLayout({
                   className={` bg-purple-600/80 text-white p-3 rounded-full shadow-md hover:bg-purple-700/50 focus:outline-none transition-colors ${
                     pathname === "/" ? "ring-purple-300" : ""
                   }`}
-            
                 >
                   <Home size={26} />
                 </motion.button>

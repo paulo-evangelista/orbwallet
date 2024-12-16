@@ -1,14 +1,30 @@
-<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg
+  width="200"
+  height="200"
+  viewBox="0 0 200 200"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+>
 <g clip-path="url(#clip0_27_5)">
-<path d="M200 100C200 155.228 155.228 200 100 200C44.7715 200 0 155.228 0 100C0 44.7715 44.7715 0 100 0C155.228 0 200 44.7715 200 100Z" fill="url(#paint0_linear_27_5)"/>
+<path
+      d="M200 100C200 155.228 155.228 200 100 200C44.7715 200 0 155.228 0 100C0 44.7715 44.7715 0 100 0C155.228 0 200 44.7715 200 100Z"
+      fill="url(#paint0_linear_27_5)"
+    />
 </g>
 <defs>
-<linearGradient id="paint0_linear_27_5" x1="143.655" y1="12.3103" x2="62.0473" y2="190.428" gradientUnits="userSpaceOnUse">
-<stop stop-color="white"/>
-<stop offset="1" stop-color="#999999"/>
+<linearGradient
+      id="paint0_linear_27_5"
+      x1="143.655"
+      y1="12.3103"
+      x2="62.0473"
+      y2="190.428"
+      gradientUnits="userSpaceOnUse"
+    >
+<stop stop-color="white" />
+<stop offset="1" stop-color="#999999" />
 </linearGradient>
 <clipPath id="clip0_27_5">
-<rect width="200" height="200" fill="white"/>
+<rect width="200" height="200" fill="white" />
 </clipPath>
 </defs>
 </svg>
