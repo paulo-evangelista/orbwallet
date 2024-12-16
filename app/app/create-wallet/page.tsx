@@ -1,18 +1,20 @@
 'use client'
 
 import { useState } from 'react'
-import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { CheckCircle2, Server } from 'lucide-react'
+import { Logo } from "@/components/logo"
 
 export default function CreateWalletIntroPage() {
   const [selectedServer, setSelectedServer] = useState('default')
   const [customServer, setCustomServer] = useState('')
   const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const router = useRouter()
 
   const handleServerChange = (value: string) => {
     if (value === 'custom') {
@@ -31,11 +33,14 @@ export default function CreateWalletIntroPage() {
 
   return (
     <div className="min-h-screen bg-black text-white flex flex-col justify-between p-6">
-      <header className="text-center mt-12">
-        <h1 className="text-3xl font-bold text-purple-400 mb-4">Your Decentralized Future Begins Here</h1>
+      <header className="text-center mb-6">
+        <div className="max-w-[120px] mx-auto mb-4">
+          <Logo variant="small" />
+        </div>
+        <h1 className="text-2xl font-bold text-purple-400">Create Your OrbWallet</h1>
       </header>
       
-      <main className="flex-grow flex flex-col justify-center items-center space-y-8">
+      <main className="flex-grow flex flex-col justify-center space-y-6">
         <div className="space-y-4 text-center">
           <p className="text-lg">
             You're about to embark on your journey into the world of decentralized finance with OrbWallet.
@@ -54,7 +59,7 @@ export default function CreateWalletIntroPage() {
           </div>
         </div>
 
-        <div className="w-full max-w-md space-y-2">
+        <div className="w-full max-w-md mx-auto space-y-2">
           <Label htmlFor="server" className="text-sm font-medium text-gray-300">Select Server</Label>
           <Select value={selectedServer} onValueChange={handleServerChange}>
             <SelectTrigger id="server" className="bg-zinc-800 border-none text-white focus:ring-2 focus:ring-purple-500">
@@ -78,9 +83,12 @@ export default function CreateWalletIntroPage() {
         </div>
       </main>
       
-      <footer className="mt-8 px-4">
-        <Button asChild className="w-full bg-purple-600 hover:bg-purple-700 text-white py-4 rounded-lg transition-colors duration-300 text-lg font-semibold">
-          <Link href="/generate-mnemonic">I Understand, Continue</Link>
+      <footer className="mt-6">
+        <Button
+          className="w-full bg-purple-600 hover:bg-purple-700 text-white py-4 rounded-lg transition-colors duration-300 text-lg font-semibold"
+          onClick={() => router.push('/generate-mn')}
+        >
+          I Understand, Continue
         </Button>
       </footer>
 
@@ -101,12 +109,12 @@ export default function CreateWalletIntroPage() {
               />
             </div>
             <Button onClick={handleCustomServerSubmit} className="w-full bg-purple-600 hover:bg-purple-700 text-white">
-              Add Server
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
-    </div>
-  )
+            Add Server
+          </Button>
+        </div>
+      </DialogContent>
+    </Dialog>
+  </div>
+)
 }
 
